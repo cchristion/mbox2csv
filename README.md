@@ -57,7 +57,7 @@ A Python script (mbox2csv.py) has been developed to automate the MBOX data extra
     ```
 - Usage
     ```
-    usage: mbox2csv.py [-h] [-o OUTPUT_CSV] mbox_file
+    usage: mbox2csv.py [-h] [-o OUTPUT_DIR] mbox_file
 
     Mbox to CSV parser.
 
@@ -67,7 +67,7 @@ A Python script (mbox2csv.py) has been developed to automate the MBOX data extra
     options:
     -h, --help            show this help message and exit
     -o OUTPUT_DIR, --output_dir OUTPUT_DIR
-                            Path to Output Directory
+                            Path to Output Directory. default "mbox_output"
     ```
 
 - Execute the code
