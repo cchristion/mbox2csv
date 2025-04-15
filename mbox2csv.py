@@ -8,6 +8,7 @@
 # ///
 
 import argparse
+import logging
 import mailbox
 import warnings
 from pathlib import Path
@@ -30,18 +31,21 @@ def cli() -> dict:
     )
     parser.add_argument(
         "-o",
-        "--output_csv",
+        "--output_dir",
         type=Path,
-        help="Path to Output CSV",
+        help="Path to Output Directory",
+        default="mbox_output",
     )
     args = parser.parse_args()
     return vars(args)
 
 
-def mbox2csv(mbox_file: Path, output_file: Path) -> None:
+def mbox2csv(mbox_file: Path, output_dir: Path) -> None:
     """Convert mbox file to csv."""
     mbox = mailbox.mbox(mbox_file)
     all_data = []
+    extracted_files = 0
+    Path(args["output_dir"]).mkdir(parents=True, exist_ok=True)
     for _, msg in mbox.iteritems():
         data = {}
         for key in msg.keys():
@@ -54,8 +58,8 @@ def mbox2csv(mbox_file: Path, output_file: Path) -> None:
                     msg.get_charset() or "ISO-8859-1",
                     errors="ignore",
                 )
-        except Exception as err:
-            print(err)
+        except Exception:
+            logging.exception("Message Error")
 
         if body:
             soup = BeautifulSoup(body, "html.parser")
@@ -66,20 +70,38 @@ def mbox2csv(mbox_file: Path, output_file: Path) -> None:
             filename = part.get_filename()
             if filename:
                 data["filename"] = filename
+                if output_dir:
+                    try:
+                        with Path.open(
+                            output_dir / filename.replace("/", "_"),
+                            "wb",
+                        ) as f:
+                            f.write(part.get_payload(decode=True))
+                        logging.info("Saved attachment %s", filename)
+                        extracted_files += 1
+                    except Exception:
+                        logging.exception("Unable to Save attachment %s", filename)
 
         all_data.append(data)
 
-    if output_file:
+    logging.info("Extracted %d files", extracted_files)
+    if output_dir:
         mbox_df = pd.DataFrame(all_data)
-        print(f"Extracted {len(mbox_df.columns)} fields from {mbox_file}")
+        logging.info("Extracted %d fields from %s", len(mbox_df.columns), mbox_file)
 
-        print(f"Writing to: {output_file}")
-        mbox_df.to_csv(output_file, escapechar="\\", index=False)
-
-        print("Sample Data:")
-        print(mbox_df.sample(5))
+        logging.info("Writing CSV to %s", output_dir / "final.csv")
+        mbox_df.to_csv(output_dir / "final.csv", escapechar="\\", index=False)
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        format="%(asctime)s : %(levelname)s : %(message)s",
+        datefmt="%Y%m%dT%H%M%S",
+        encoding="utf-8",
+        level=logging.INFO,
+    )
+
     args = cli()
-    mbox2csv(args["mbox_file"], args["output_csv"])
+    logging.info("Parsing %s", args["mbox_file"])
+    logging.info("Writing Output to %s", args["output_dir"])
+    mbox2csv(args["mbox_file"], args["output_dir"])

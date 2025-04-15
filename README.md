@@ -33,10 +33,11 @@ A Python script (mbox2csv.py) has been developed to automate the MBOX data extra
 
 ### Key Features:
 
-- CLI Argument: The script accepts the MBOX file path as a command-line argument, providing flexibility in processing different files.
+- CLI Argument: The script accepts the MBOX file path and an optional output directory as command-line arguments, providing flexibility in processing different files and specifying output locations.
 - Modular Design: The script is structured into functions for better organization and reusability.
 - Error Handling: Basic error handling is included to manage potential issues during file processing.
-- Output: The script generates a CSV file containing the extracted data.
+- Output: The script generates a CSV file containing the extracted data and saves it, along with any extracted attachments, to the specified output directory.
+
 
 ## How to Use the Script:
 
@@ -61,8 +62,8 @@ A Python script (mbox2csv.py) has been developed to automate the MBOX data extra
 
     options:
     -h, --help            show this help message and exit
-    -o OUTPUT_CSV, --output_csv OUTPUT_CSV
-                            Path to Output CSV
+    -o OUTPUT_DIR, --output_dir OUTPUT_DIR
+                            Path to Output Directory
     ```
 
 - Execute the code
