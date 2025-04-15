@@ -33,7 +33,7 @@ def cli() -> dict:
         "-o",
         "--output_dir",
         type=Path,
-        help="Path to Output Directory",
+        help='Path to Output Directory. default "mbox_output"',
         default="mbox_output",
     )
     args = parser.parse_args()
