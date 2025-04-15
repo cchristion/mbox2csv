@@ -2,6 +2,10 @@
 
 This document details the structured approach employed to extract and process data from MBOX files, along with the implementation of a Python script utilizing CLI arguments.
 
+## Demo
+
+[![Demo](https://asciinema.org/a/lSxQy9VU5KUFYXBGRak4SuOQb.svg)](https://asciinema.org/a/lSxQy9VU5KUFYXBGRak4SuOQb)
+
 ## Parsing Steps:
 
 1. Message Iteration:
