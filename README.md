@@ -72,5 +72,5 @@ A Python script (mbox2csv.py) has been developed to automate the MBOX data extra
 
 - Execute the code
     ```bash
-    python mbox2csv.py /path/to/mbox_file.mbox -o /path/to/output.csv
+    python mbox2csv.py /path/to/mbox_file.mbox -o /path/to/output
     ```
