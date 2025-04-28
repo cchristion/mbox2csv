@@ -4,7 +4,7 @@ This document details the structured approach employed to extract and process da
 
 ## Demo
 
-[![Demo](https://asciinema.org/a/lSxQy9VU5KUFYXBGRak4SuOQb.svg)](https://asciinema.org/a/lSxQy9VU5KUFYXBGRak4SuOQb)
+![Demo](https://raw.githubusercontent.com/cchristion/mbox2csv/refs/heads/main/demo.gif)
 
 ## Parsing Steps:
 
